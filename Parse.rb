@@ -1,6 +1,7 @@
 file='http_access_log'
 File.readlines(file).each do |line|
-  var1 = line.split[0]
+  date = line.split[0]
+  date = var1[1..11]
   var2 = line.split[3]
   var3 = line.split[6]
   var4 = line.split[8]
