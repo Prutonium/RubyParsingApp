@@ -1,19 +1,33 @@
-#date_array = []
-file='http_access_log'
+#date_array 
+file='http_access_log_cleanedup.txt'
+error = 0
+ln = 1
+
 File.readlines(file).each do |line|
-  var1 = line.split[0]
-  var2 = line.split[3]
-  #date = var2[1,11]
-  #for some reason, taking the [1,11] of var2 breaks the loop after the date changes from oct 24 to 25th and I don't know why
+  ln += 1
+  matches = /.* \[(.*) \-\d{4}\] "(.*?)"\W(\d{3})/	.match(line)
+  if matches == nil
+	puts "Error line"
+	error = error + 1
+  else
+	date = matches[1]
+	download = matches[2]
+	outcome =  matches[3]
+	puts date
+	puts download
+	puts outcome
+  end
   #date_array.push(date)
-  var3 = line.split[6]
-  var4 = line.split[8]
-  #puts var1
-  puts var2
-  #puts date
-  #puts var3
-  #puts var4
-  #puts date_array
+
+  puts ln
+
+
+  
 end
 
-#while loop here to print elemnts of date array. count each appearance of a date with inject or each_with_object
+
+#puts "Total Lines:" ln
+#puts "Total Errors:" error
+#percent_error = error/ln
+#puts "Percent Error:" percent_error "%"
+#while
