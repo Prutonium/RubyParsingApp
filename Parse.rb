@@ -10,7 +10,7 @@ File.readlines(file).each do |line|
   ln += 1
   matches = /.* \[(.*) \-\d{4}\] "GET (.*?) HTTP\/1.0"\W(\d{3})/	.match(line)
   if matches == nil
-	puts "Error line"
+	#puts "Error line"
 	error = error + 1
   else
 	date = matches[1]
@@ -27,24 +27,32 @@ File.readlines(file).each do |line|
 	if success_code == "3"
 		redirected = redirected + 1
 	end
-	puts date
-	puts day
-	puts download
-	puts outcome
+	#puts date
+	#puts day
+	#puts download
+	#puts outcome
 	
   end
   #date_array.push(date)
 
-puts ln
+#puts ln
 
 
   
 end
 
+#date_counts = Hash.new(0)
+#date_array.each { |times_day| date_counts[times_day] += 1 }
 
-
+puts " "
 print "Total Requests Made: " 
 puts ln
+puts " "
+puts "Requests Made Per Day: "
+puts " "
+puts date_array.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
+puts " "
+#puts Hash[ date_array.group_by{|o|o}.map{|o,a|[o,a.length]}.sort_by{|o,ct|[-ct,o]} ]
 print "Total Errors in Reading Requests: " 
 puts error
 decimal_error = error.to_f/ln.to_f
@@ -71,3 +79,10 @@ decimal_percent_redirected = redirected.to_f/ln.to_f
 percent_redirected = decimal_percent_redirected * 100.0
 print '%.2f' % percent_redirected
 puts"%"
+puts" "
+download_array_organized = Hash[ download_array.group_by{|o|o}.map{|o,a|[o,a.length]}.sort_by{|o,ct|[-ct,o]} ]
+print "Most Downloaded File: "
+print download_array_organized.first 
+puts " times"
+
+
