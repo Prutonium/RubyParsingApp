@@ -84,5 +84,8 @@ download_array_organized = Hash[ download_array.group_by{|o|o}.map{|o,a|[o,a.len
 print "Most Downloaded File: "
 print download_array_organized.first 
 puts " times"
-
+download_array_organized_smallest = Hash[ download_array.group_by{|o|o}.map{|o,a|[o,a.length]}.sort_by{|ct,o|[o,-ct]} ]
+print "Least Downloaded File: "
+print download_array_organized_smallest.first 
+puts " times"
 
