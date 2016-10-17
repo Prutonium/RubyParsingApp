@@ -6,7 +6,7 @@ Download Virtual Box
 
 Download Vagrant
 
-Run a Bash shell as admin (I downloaded and used the Git shell)
+Run a Bash shell AS ADMIN (I downloaded and used the Git shell)
 
   initalize vagrant with:
   
