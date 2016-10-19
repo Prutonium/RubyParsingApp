@@ -1,12 +1,12 @@
 require 'open-uri'
 
-#download_file = open('http://s3.amazonaws.com/tcmg412-fall2016/http_access_log')
-download_file = open('http://physis.arch.tamu.edu/files/http_access_log')
+download_file = open('http://s3.amazonaws.com/tcmg412-fall2016/http_access_log')
+#download_file = open('http://physis.arch.tamu.edu/files/http_access_log')
 
 IO.copy_stream(download_file, 'my_file.file')
 date_array = []
 download_array = []
-#file='http_access_log1'
+#file='http_access_log1' for local practice
 error = 0
 ln = 0
 no_success = 0
@@ -19,9 +19,14 @@ File.readlines('my_file.file').each do |line|
 	#puts "Error line"
 	error = error + 1
   else
+
 	date = matches[1]
 	day = date[0..10]
+	month = date[3..5]+date[7..10]
 	date_array.push(day)
+	File.open("#{month}", 'a') do |f|
+		f << line
+	end
 	download = matches[2]
 	download_array.push(download)
 	outcome =  matches[3]
@@ -96,6 +101,4 @@ print download_array_organized_smallest.first
 puts " times"
 
 
-#next
-#make a loading animation for every x amount of lines
-#then write file into 14 other files. 
+
