@@ -85,7 +85,7 @@ print '%.2f' % percent_no_success
 puts"%"
 print "Requests redirected elsewhere (any 3xx codes): "
 puts redirected
-print "Percent Requests not successful (any 3xx status code): "
+print "Percent Requests redirected elsewhere (any 3xx status code): "
 decimal_percent_redirected = redirected.to_f/ln.to_f
 percent_redirected = decimal_percent_redirected * 100.0
 print '%.2f' % percent_redirected
