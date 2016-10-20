@@ -1,17 +1,13 @@
 require 'open-uri'
-
 download_file = open('http://s3.amazonaws.com/tcmg412-fall2016/http_access_log')
 #download_file = open('http://physis.arch.tamu.edu/files/http_access_log')
-
 IO.copy_stream(download_file, 'my_file.file')
 date_array = []
 download_array = []
-#file='http_access_log1' for local practice
 error = 0
 ln = 0
 no_success = 0
 redirected = 0
-
 File.readlines('my_file.file').each do |line|
   ln += 1
   matches = /.* \[(.*) \-\d{4}\] "GET (.*?) HTTP\/1.0"\W(\d{3})/	.match(line)
@@ -19,7 +15,6 @@ File.readlines('my_file.file').each do |line|
 	#puts "Error line"
 	error = error + 1
   else
-
 	date = matches[1]
 	day = date[0..10]
 	month = date[3..5]+date[7..10]
@@ -38,23 +33,8 @@ File.readlines('my_file.file').each do |line|
 	if success_code == "3"
 		redirected = redirected + 1
 	end
-	#puts date
-	#puts day
-	#puts download
-	#puts outcome
-	
   end
-  #date_array.push(date)
-
-#puts ln
-
-
-  
 end
-
-#date_counts = Hash.new(0)
-#date_array.each { |times_day| date_counts[times_day] += 1 }
-
 puts " "
 print "Total Requests Made: " 
 puts ln
@@ -68,14 +48,12 @@ print "Total Errors in Reading Requests: "
 puts error
 decimal_error = error.to_f/ln.to_f
 percent_error = (decimal_error * 100.0) 
-
 print "Decimal Error: " 
 puts decimal_error
 print "Percent Error~ " 
 print '%.2f' % percent_error
 puts"%"
 puts" "
-
 print "Requests not successful (any 4xx status code): "
 puts no_success
 print "Percent Requests not successful (any 4xx status code): "
@@ -99,6 +77,3 @@ download_array_organized_smallest = Hash[ download_array.group_by{|o|o}.map{|o,a
 print "Least Downloaded File: "
 print download_array_organized_smallest.first 
 puts " times"
-
-
-
