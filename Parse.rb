@@ -65,11 +65,12 @@ puts " "
 print "Total Requests Made: " 
 puts ln
 puts " "
-puts "Requests Made Per Day: "
+puts "Requests Made Per Month: "
 puts " "
 #puts date_array.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
 #puts " "
-puts month_array.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
+final_month_hash = month_array.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
+final_month_hash.each_pair {|key,value| puts "#{key} = #{value}"}
 puts " "
 #puts Hash[ date_array.group_by{|o|o}.map{|o,a|[o,a.length]}.sort_by{|o,ct|[-ct,o]} ]
 print "Total Errors in Reading Requests: " 
