@@ -4,10 +4,14 @@ download_file = open('http://s3.amazonaws.com/tcmg412-fall2016/http_access_log')
 IO.copy_stream(download_file, 'my_file.file')
 date_array = []
 download_array = []
+month_array = []
+month_hash = {}
+outfile_array = {}
 error = 0
 ln = 0
 no_success = 0
 redirected = 0
+LOG_PATH = 'logs/'
 File.readlines('my_file.file').each do |line|
   ln += 1
   matches = /.* \[(.*) \-\d{4}\] "GET (.*?) HTTP\/1.0"\W(\d{3})/	.match(line)
@@ -19,9 +23,14 @@ File.readlines('my_file.file').each do |line|
 	day = date[0..10]
 	month = date[3..5]+date[7..10]
 	date_array.push(day)
-	File.open("#{month}", 'a') do |f|
-		f << line
-	end
+	month_array.push(month)
+	#line_array.push(line)
+	month_hash.store(line, "#{month}")
+	#File.open("#{month}", 'a') do |f|
+	#	f << line
+	#end
+	unless outfile_array[month] then outfile_array[month] = [] end
+	outfile_array[month].push(line)
 	download = matches[2]
 	download_array.push(download)
 	outcome =  matches[3]
@@ -35,13 +44,32 @@ File.readlines('my_file.file').each do |line|
 	end
   end
 end
+#puts month_hash
+#month_hash.each do |linekey, themonth|
+#	File.open("#{themonth}", 'w+') do |f|
+#		f << linekey
+#	end
+#end
+Dir.mkdir(LOG_PATH) unless File.exists?(LOG_PATH)
+gtotal = 0
+outfile_array.each do |key, arr|
+	gtotal += arr.count
+	file_name = LOG_PATH + key + '.log'
+	File.open(file_name, "w+") do |f|
+		f.puts(arr)
+	end
+end
+puts " "
+puts "Process Complete."
 puts " "
 print "Total Requests Made: " 
 puts ln
 puts " "
 puts "Requests Made Per Day: "
 puts " "
-puts date_array.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
+#puts date_array.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
+#puts " "
+puts month_array.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
 puts " "
 #puts Hash[ date_array.group_by{|o|o}.map{|o,a|[o,a.length]}.sort_by{|o,ct|[-ct,o]} ]
 print "Total Errors in Reading Requests: " 
